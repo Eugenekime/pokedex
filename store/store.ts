@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { PokemonDetails, PokemonList, Pokemons } from '@/types/pokemon';
+import useSettingStore from './settingStore';
 
 type Store = {
   pokemons: Pokemons[];
@@ -12,7 +13,7 @@ type Store = {
   setFavoriteList: (list: number[]) => void;
 };
 
-const useStore = create<Store>((set) => ({
+const useStore = create<Store>((set, get) => ({
   pokemons: [],
   setPokemons: (newPokemons) =>
     set((state) => {
@@ -25,7 +26,12 @@ const useStore = create<Store>((set) => ({
         })),
       }));
       return {
-        pokemons: [...state.pokemons, ...newArr],
+        pokemons: [
+          ...state.pokemons,
+          ...newArr.filter(
+            (p) => !state.pokemons.some((someP) => someP.id === p.id)
+          ),
+        ],
       };
     }),
   /// filter by types
@@ -40,7 +46,6 @@ const useStore = create<Store>((set) => ({
 
   /// favorites
   favoriteList: [],
-  toggleFavorite: () => {},
   setFavoriteList: (list) =>
     set({
       favoriteList: list,

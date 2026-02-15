@@ -22,7 +22,7 @@ const useSettingStore = create<settingType>((set) => ({
   },
   loadSettings: async () => {
     const theme = await AsyncStorage.getItem('theme');
-    const isFavoritesFirst = await AsyncStorage.getItem('isFavoritesFirst');
+    const isFavoritesFirst = await AsyncStorage.getItem('favoritesFirst');
     const turnedToBoolean = isFavoritesFirst === 'true';
     if (theme) set({ theme });
     if (isFavoritesFirst)

@@ -9,7 +9,7 @@ import {
   StyleSheet,
 } from 'react-native';
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 /// types
 import { PokemonList } from '@/types/pokemon';
 ///api
@@ -60,8 +60,10 @@ export default function Home() {
   /////Store
   const pokemons = useStore((state) => state.pokemons);
   const typeForFilter = useStore((state) => state.typeForFilter);
-  const setPokemon = useStore((state) => state.setPokemons);
+  const setPokemons = useStore((state) => state.setPokemons);
   const theme = useSettingStore((state) => state.theme);
+  const favoriteList = useStore((state) => state.favoriteList);
+  const isFavoritesFirst = useSettingStore((state) => state.isFavoritesFirst);
 
   /////Infinity scroll
   const [loading, setLoading] = useState(false);
@@ -71,11 +73,27 @@ export default function Home() {
   const limit = 20;
   /////Filter
   const [openFilter, setOpenFilter] = useState(false);
-  const filteredPokemons = typeForFilter
-    ? pokemons.filter((pokemon) =>
-        pokemon.types.some((t) => t.name === typeForFilter)
-      )
-    : pokemons;
+
+  const sortedPokemons = useMemo(() => {
+    if (!isFavoritesFirst) return pokemons;
+
+    return [...pokemons].sort((a, b) => {
+      const aFav = favoriteList.includes(a.id);
+      const bFav = favoriteList.includes(b.id);
+      if (aFav === bFav) return 0;
+      return aFav ? -1 : 1;
+    });
+  }, [pokemons, favoriteList, isFavoritesFirst]);
+
+  const filteredPokemons = useMemo(
+    () =>
+      typeForFilter
+        ? sortedPokemons.filter((pokemon) =>
+            pokemon.types.some((t) => t.name === typeForFilter)
+          )
+        : sortedPokemons,
+    [typeForFilter, sortedPokemons]
+  );
   ///colors
   const styles = createStyles(theme);
 
@@ -95,7 +113,7 @@ export default function Home() {
         )
       )
       .then((details) => {
-        setPokemon(details);
+        setPokemons(details);
         setOffset((prev) => prev + limit);
       })
       .catch((err) => {
