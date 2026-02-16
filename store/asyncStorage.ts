@@ -44,3 +44,14 @@ export const removeItem = async ({ key, id }: StorageParams) => {
     return [];
   }
 };
+
+export const removeAllItems = async (key: string) => {
+  try {
+    const newList: any[] = [];
+    await AsyncStorage.setItem(key, JSON.stringify(newList));
+    return newList;
+  } catch (err) {
+    console.log(err);
+    return [];
+  }
+};

@@ -8,6 +8,8 @@ import {
   PressableStateCallbackType,
 } from 'react-native';
 import useSettingStore from '@/store/settingStore';
+import { removeAllItems } from '@/store/asyncStorage';
+import useStore from '@/store/store';
 import { darkTheme } from '@/theme/darkTheme';
 
 const styles = StyleSheet.create({
@@ -42,7 +44,6 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 16,
     fontWeight: 'bold',
-    marginBottom: 10,
   },
   buttonsWrapper: {
     flexDirection: 'row',
@@ -70,9 +71,29 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: 500,
   },
+
+  clearWrapper: {
+    marginTop: 20,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  clearBtn: {
+    padding: 8,
+    borderRadius: 20,
+    borderWidth: 1,
+    alignSelf: 'center',
+    backgroundColor: '#E62727',
+    //IOS shadow
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 6,
+  },
+  clearText: { fontSize: 16, fontWeight: 'bold', color: 'white' },
 });
 
-export default function Third() {
+export default function Setting() {
   const theme = useSettingStore((state) => state.theme);
   const setTheme = useSettingStore((state) => state.setTheme);
   const isFavoritesFirst = useSettingStore((state) => state.isFavoritesFirst);
@@ -84,6 +105,14 @@ export default function Third() {
     opacity: state.pressed ? 0.7 : 1,
     transform: state.pressed ? [{ scale: 0.97 }] : [{ scale: 1 }],
   });
+
+  const setFavoriteList = useStore((state) => state.setFavoriteList);
+
+  const removeAllFavorites = async () => {
+    const res = await removeAllItems('favorite');
+    setFavoriteList(res);
+  };
+
   return (
     <ImageBackground
       style={{ flex: 1 }}
@@ -120,7 +149,7 @@ export default function Third() {
                 styles.button,
                 pressedEffect(state),
                 {
-                  backgroundColor: theme === 'light' ? '#F26076' : '#BFC6C4',
+                  backgroundColor: theme === 'light' ? '#E62727' : '#BFC6C4',
                 },
               ]}
               onPress={() => setTheme('light')}
@@ -132,7 +161,7 @@ export default function Third() {
                 styles.button,
                 pressedEffect(state),
                 {
-                  backgroundColor: theme === 'light' ? '#BFC6C4' : '#F26076',
+                  backgroundColor: theme === 'light' ? '#BFC6C4' : '#E62727',
                 },
               ]}
               onPress={() => setTheme('dark')}
@@ -150,7 +179,7 @@ export default function Third() {
                 pressedEffect(state),
                 {
                   backgroundColor:
-                    isFavoritesFirst === true ? '#F26076' : '#BFC6C4',
+                    isFavoritesFirst === true ? '#E62727' : '#BFC6C4',
                 },
               ]}
               onPress={() => setIsfavoriteFirst(true)}
@@ -163,7 +192,7 @@ export default function Third() {
                 pressedEffect(state),
                 {
                   backgroundColor:
-                    isFavoritesFirst === true ? '#BFC6C4' : '#F26076',
+                    isFavoritesFirst === true ? '#BFC6C4' : '#E62727',
                 },
               ]}
               onPress={() => setIsfavoriteFirst(false)}
@@ -172,10 +201,14 @@ export default function Third() {
             </Pressable>
           </View>
         </View>
-        <View style={styles.section}>
-          <Text style={styles.title}>
-            Edit app/index.tsx to edit this screen.
-          </Text>
+
+        <View style={styles.clearWrapper}>
+          <Pressable
+            onPress={() => removeAllFavorites()}
+            style={(state) => [styles.clearBtn, pressedEffect(state)]}
+          >
+            <Text style={styles.clearText}>Clear all favorites</Text>
+          </Pressable>
         </View>
       </ScrollView>
     </ImageBackground>

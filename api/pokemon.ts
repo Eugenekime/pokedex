@@ -14,7 +14,7 @@ export async function getAllPokemons() {
   return request(`/pokemon?limit=1350&offset=0`);
 }
 
-export const getPokemonIdByUrl = async (url: string) => {
+export const getPokemonIdByUrl = (url: string) => {
   const parts = url.split('/');
   return parts[parts.length - 2];
 };
@@ -57,8 +57,8 @@ export async function getPokemonDetails(id: number): Promise<PokemonDetail> {
 
     types: pokemonData.types.map((t: any) => t.type.name),
 
-    height: pokemonData.height,
-    weight: pokemonData.weight,
+    height: pokemonData.height / 10,
+    weight: pokemonData.weight / 10,
 
     abilities: pokemonData.abilities.map((a: any) => ({
       name: a.ability.name[0].toUpperCase() + a.ability.name.slice(1),

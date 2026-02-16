@@ -10,6 +10,7 @@ const createStyles = (theme: string) =>
     wrapper: {
       backgroundColor: 'white',
       padding: 8,
+      height: '100%',
     },
     attributeContainer: {
       flexDirection: 'column',
@@ -41,7 +42,12 @@ const createStyles = (theme: string) =>
     descContainer: {
       gap: 10,
     },
-    descTitle: { fontSize: 18, fontWeight: '500', textAlign: 'center' },
+    descTitle: {
+      fontSize: 18,
+      fontWeight: '500',
+      textAlign: 'center',
+      color: 'rgba(0, 0, 0, 0.514)',
+    },
     descContainerText: {
       paddingHorizontal: 16,
       width: '100%',
@@ -66,11 +72,11 @@ const TabAbout = ({ data }: Props) => {
         </View>
         <View style={style.attributeRow}>
           <Text style={style.attributeName}>Height:</Text>
-          <Text style={style.attributeValue}>{data.height / 10} m</Text>
+          <Text style={style.attributeValue}>{data.height} m</Text>
         </View>
         <View style={style.attributeRow}>
           <Text style={style.attributeName}>Weight:</Text>
-          <Text style={style.attributeValue}>{data.weight / 10} kg</Text>
+          <Text style={style.attributeValue}>{data.weight} kg</Text>
         </View>
         <View style={style.attributeRow}>
           <Text style={style.attributeName}>Habitat:</Text>
@@ -99,7 +105,7 @@ const TabAbout = ({ data }: Props) => {
               >
                 {ablts.name}
               </Text>
-            ))}{' '}
+            ))}
           </View>
         </View>
       </View>

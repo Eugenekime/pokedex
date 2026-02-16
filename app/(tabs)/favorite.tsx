@@ -95,7 +95,7 @@ export default function Favorite() {
         <View style={styles.headerContainer}>
           <Text style={styles.headerTitle}>My favorites</Text>
         </View>
-        {favoriteList[0] ? null : (
+        {favoriteList.length === 0 && (
           <View style={styles.emptyContainer}>
             <Text style={styles.emptyText}>Your favorites list is empty</Text>
             <Text style={styles.emptySmallText}>
