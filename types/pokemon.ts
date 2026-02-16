@@ -22,6 +22,36 @@ export type PokemonDetails = {
   }[];
 };
 
+export type PokemonDetail = {
+  id: number;
+  name: string;
+  image: string;
+
+  types: string[];
+
+  height: number;
+  weight: number;
+
+  abilities: {
+    name: string;
+    isHidden: boolean;
+  }[];
+
+  stats: {
+    name: string;
+    value: number;
+  }[];
+
+  description: string;
+
+  genus: string;
+  color: string;
+  habitat: string | null;
+  eggGroups: string[];
+
+  evolutionUrl: string;
+};
+
 export type Pokemons = {
   id: number;
   name: string;

@@ -1,6 +1,10 @@
 import { create } from 'zustand';
-import { PokemonDetails, PokemonList, Pokemons } from '@/types/pokemon';
-import useSettingStore from './settingStore';
+import {
+  PokemonDetails,
+  PokemonList,
+  Pokemons,
+  PokemonDetail,
+} from '@/types/pokemon';
 
 type Store = {
   pokemons: Pokemons[];
@@ -11,6 +15,8 @@ type Store = {
   setPokemonSearchList: (newList: PokemonList[]) => void;
   favoriteList: number[];
   setFavoriteList: (list: number[]) => void;
+  pokemonDetails: Record<number, PokemonDetail>;
+  setPokemonDetail: (id: number, data: PokemonDetail) => void;
 };
 
 const useStore = create<Store>((set, get) => ({
@@ -50,6 +56,13 @@ const useStore = create<Store>((set, get) => ({
     set({
       favoriteList: list,
     }),
+  /// pokemon detail
+  pokemonDetails: {},
+  setPokemonDetail: (id, data) => {
+    set((state) => ({
+      pokemonDetails: { ...state.pokemonDetails, [id]: data },
+    }));
+  },
 }));
 
 export default useStore;

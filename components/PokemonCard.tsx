@@ -1,6 +1,5 @@
 import { Text, View, Image, Pressable, StyleSheet } from 'react-native';
-import { useState } from 'react';
-import { PokemonDetails, Pokemons } from '@/types/pokemon';
+import { Pokemons } from '@/types/pokemon';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import useStore from '@/store/store';
 
@@ -12,91 +11,6 @@ import { addToList, getList, removeItem } from '@/store/asyncStorage';
 type PokemonCardProps = {
   data: Pokemons;
 };
-
-const PokemonCard = ({ data }: PokemonCardProps) => {
-  const router = useRouter();
-
-  const setFavoriteList = useStore((state) => state.setFavoriteList);
-  const favoriteList = useStore((state) => state.favoriteList);
-  const isLike = favoriteList.some((item) => item === data.id);
-
-  const handleFavoriteButton = async (pokemon: Pokemons) => {
-    const list = await getList('favorite');
-    const exists = list.includes(pokemon.id);
-
-    let newList = [];
-
-    if (exists) {
-      newList = await removeItem({ key: 'favorite', id: pokemon.id });
-    } else {
-      newList = await addToList({ key: 'favorite', id: pokemon.id });
-    }
-
-    setFavoriteList(newList);
-  };
-
-  return (
-    <Pressable
-      onPress={() =>
-        router.push({
-          pathname: '/pokemon/[id]',
-          params: { id: data.id.toString() },
-        })
-      }
-      style={({ pressed }) => [
-        {
-          backgroundColor: typeColors[data.types[0].name],
-          opacity: pressed ? 0.7 : 1,
-          transform: pressed ? [{ scale: 0.97 }] : [{ scale: 1 }],
-        },
-        styles.cardContainer,
-      ]}
-    >
-      <View style={styles.topContainer}>
-        <View style={styles.idWrapper}>
-          <Text style={styles.idText}>#{data.id}</Text>
-        </View>
-        <Pressable
-          onPress={() => handleFavoriteButton(data)}
-          style={styles.favoriteWrapper}
-        >
-          <Icon
-            name="heart"
-            size={20}
-            color={isLike ? 'red' : 'white'}
-          />
-        </Pressable>
-      </View>
-      <Image
-        source={require('../assets/images/gameBg.png')}
-        style={styles.cardBGPicture}
-      />
-      <Image
-        source={{
-          uri: data.img,
-        }}
-        style={styles.pokemonPicture}
-      />
-      <View style={styles.cardDescription}>
-        <Text style={styles.pokemonName}>
-          {data.name[0].toUpperCase() + data.name.slice(1)}
-        </Text>
-        <View style={styles.bottomContainer}>
-          {data.types.map((t) => (
-            <View
-              key={t.name}
-              style={styles.typeWrapper}
-            >
-              <Text style={styles.typeName}>{t.name}</Text>
-            </View>
-          ))}
-        </View>
-      </View>
-    </Pressable>
-  );
-};
-
-export default PokemonCard;
 
 const styles = StyleSheet.create({
   cardContainer: {
@@ -187,3 +101,88 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
 });
+
+const PokemonCard = ({ data }: PokemonCardProps) => {
+  const router = useRouter();
+
+  const setFavoriteList = useStore((state) => state.setFavoriteList);
+  const favoriteList = useStore((state) => state.favoriteList);
+  const isLike = favoriteList.some((item) => item === data.id);
+
+  const handleFavoriteButton = async (pokemon: Pokemons) => {
+    const list = await getList('favorite');
+    const exists = list.includes(pokemon.id);
+
+    let newList = [];
+
+    if (exists) {
+      newList = await removeItem({ key: 'favorite', id: pokemon.id });
+    } else {
+      newList = await addToList({ key: 'favorite', id: pokemon.id });
+    }
+
+    setFavoriteList(newList);
+  };
+
+  return (
+    <Pressable
+      onPress={() =>
+        router.push({
+          pathname: '/pokemon/[id]',
+          params: { id: data.id.toString() },
+        })
+      }
+      style={({ pressed }) => [
+        {
+          backgroundColor: typeColors[data.types[0].name],
+          opacity: pressed ? 0.7 : 1,
+          transform: pressed ? [{ scale: 0.97 }] : [{ scale: 1 }],
+        },
+        styles.cardContainer,
+      ]}
+    >
+      <View style={styles.topContainer}>
+        <View style={styles.idWrapper}>
+          <Text style={styles.idText}>#{data.id}</Text>
+        </View>
+        <Pressable
+          onPress={() => handleFavoriteButton(data)}
+          style={styles.favoriteWrapper}
+        >
+          <Icon
+            name="heart"
+            size={20}
+            color={isLike ? 'red' : 'white'}
+          />
+        </Pressable>
+      </View>
+      <Image
+        source={require('../assets/images/gameBg.png')}
+        style={styles.cardBGPicture}
+      />
+      <Image
+        source={{
+          uri: data.img,
+        }}
+        style={styles.pokemonPicture}
+      />
+      <View style={styles.cardDescription}>
+        <Text style={styles.pokemonName}>
+          {data.name[0].toUpperCase() + data.name.slice(1)}
+        </Text>
+        <View style={styles.bottomContainer}>
+          {data.types.map((t) => (
+            <View
+              key={t.name}
+              style={styles.typeWrapper}
+            >
+              <Text style={styles.typeName}>{t.name}</Text>
+            </View>
+          ))}
+        </View>
+      </View>
+    </Pressable>
+  );
+};
+
+export default PokemonCard;

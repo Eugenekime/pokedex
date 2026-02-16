@@ -26,7 +26,12 @@ export default function RootLayout() {
               headerShown: false,
             }}
           />
-          <Stack.Screen name="pokemon/[id]" />
+          <Stack.Screen
+            name="pokemon/[id]"
+            options={{
+              headerShown: false,
+            }}
+          />
         </Stack>
       </SafeAreaView>
     </>
