@@ -28,6 +28,9 @@ export async function getPokemonDetails(id: number): Promise<PokemonDetail> {
   const pokemonData = await pokemonRes.json();
   const speciesData = await speciesRes.json();
 
+  const evolutionRes = await fetch(speciesData.evolution_chain.url);
+  const evolutionData = await evolutionRes.json();
+
   const englishEntries = speciesData.flavor_text_entries.filter(
     (item: any) => item.language.name === 'en'
   );
@@ -49,6 +52,50 @@ export async function getPokemonDetails(id: number): Promise<PokemonDetail> {
   );
 
   const habitat = speciesData.habitat ? speciesData.habitat.name : null;
+
+  function getEvolutions(
+    chain: any
+  ): { name: string; minLevel: number | null }[] {
+    const result: { name: string; minLevel: number | null }[] = [];
+    let current = chain;
+
+    result.push({
+      name: current.species.name,
+      minLevel: null,
+    });
+
+    while (current.evolves_to.length > 0) {
+      const next = current.evolves_to[0];
+      const details = next.evolution_details[0];
+
+      result.push({
+        name: next.species.name,
+        minLevel: details?.min_level || null,
+      });
+
+      current = next;
+    }
+
+    return result;
+  }
+  const evolutionList = getEvolutions(evolutionData.chain);
+
+  const evolutions = await Promise.all(
+    evolutionList.map(
+      async (item: { name: string; minLevel: number | null }) => {
+        const res = await fetch(
+          `https://pokeapi.co/api/v2/pokemon/${item.name}`
+        );
+        const data = await res.json();
+
+        return {
+          name: data.name[0].toUpperCase() + data.name.slice(1),
+          image: data.sprites.other['official-artwork'].front_default,
+          minLevel: item.minLevel,
+        };
+      }
+    )
+  );
 
   return {
     id: pokemonData.id,
@@ -80,6 +127,10 @@ export async function getPokemonDetails(id: number): Promise<PokemonDetail> {
       (e: any) => e.name[0].toUpperCase() + e.name.slice(1)
     ),
 
-    evolutionUrl: speciesData.evolution_chain.url,
+    evolutions,
+    moves: pokemonData.moves.map((item: any) => ({
+      name: item.move.name[0].toUpperCase() + item.move.name.slice(1),
+      url: item.move.url,
+    })),
   };
 }

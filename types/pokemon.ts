@@ -49,7 +49,22 @@ export type PokemonDetail = {
   habitat: string | null;
   eggGroups: string[];
 
-  evolutionUrl: string;
+  evolutions: { name: string; image: string; minLevel: number | null }[];
+
+  moves: { name: string; url: string }[];
+};
+
+export type MoveDetailType = {
+  name: string;
+  power: number | null;
+  pp: number;
+  accuracy: number | null;
+  type: {
+    name: string;
+  };
+  damage_class: {
+    name: string;
+  };
 };
 
 export type Pokemons = {

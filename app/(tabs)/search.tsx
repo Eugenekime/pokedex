@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 import { useState, useMemo, useEffect } from 'react';
+
 ///store
 import useStore from '@/store/store';
 import useSettingStore from '@/store/settingStore';
@@ -57,6 +58,7 @@ const createStyles = (theme: string) =>
   });
 
 export default function Search() {
+ 
   const pokemonSearchList = useStore((state) => state.pokemonSearchList);
   const setPokemonSearchList = useStore((state) => state.setPokemonSearchList);
   const theme = useSettingStore((state) => state.theme);

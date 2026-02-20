@@ -1,8 +1,18 @@
 import { Stack } from 'expo-router';
 import { StatusBar } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import useSettingStore from '@/store/settingStore';
+import { useEffect } from 'react';
+import useStore from '@/store/store';
 
 export default function RootLayout() {
+  const loadSettings = useSettingStore((state) => state.loadSettings);
+  const loadFavorites = useStore((state) => state.loadFavorites);
+
+  useEffect(() => {
+    loadSettings();
+    loadFavorites();
+  }, []);
   return (
     <>
       <StatusBar

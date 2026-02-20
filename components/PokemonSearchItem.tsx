@@ -1,17 +1,28 @@
 import { PokemonList } from '@/types/pokemon';
 import { View, Text, StyleSheet, Image, Pressable } from 'react-native';
 import { getPokemonIdByUrl } from '@/api/pokemon';
+import { useRouter } from 'expo-router';
 type pokemonItem = {
   item: PokemonList;
 };
 
 const PokemonSearchItem = ({ item }: pokemonItem) => {
+  const router = useRouter();
+  const id = getPokemonIdByUrl(item.url);
   return (
-    <Pressable style={styles.wrapper}>
+    <Pressable
+      onPress={() =>
+        router.push({
+          pathname: '/pokemon/[id]',
+          params: { id: id.toString() },
+        })
+      }
+      style={styles.wrapper}
+    >
       <View style={styles.bg}>
         <Image
           source={{
-            uri: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${getPokemonIdByUrl(item.url)}.png`,
+            uri: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`,
           }}
           style={styles.imgPokemon}
         />

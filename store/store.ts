@@ -5,6 +5,7 @@ import {
   Pokemons,
   PokemonDetail,
 } from '@/types/pokemon';
+import { getList } from '@/store/asyncStorage';
 
 type Store = {
   pokemons: Pokemons[];
@@ -15,6 +16,7 @@ type Store = {
   setPokemonSearchList: (newList: PokemonList[]) => void;
   favoriteList: number[];
   setFavoriteList: (list: number[]) => void;
+  loadFavorites: () => void;
   pokemonDetails: Record<number, PokemonDetail>;
   setPokemonDetail: (id: number, data: PokemonDetail) => void;
 };
@@ -56,6 +58,15 @@ const useStore = create<Store>((set, get) => ({
     set({
       favoriteList: list,
     }),
+  loadFavorites: async () => {
+    try {
+      const list = await getList('favorite');
+      set({ favoriteList: list || [] });
+    } catch (err) {
+      console.log(err);
+    }
+  },
+
   /// pokemon detail
   pokemonDetails: {},
   setPokemonDetail: (id, data) => {

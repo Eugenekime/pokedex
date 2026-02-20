@@ -5,13 +5,13 @@ import {
   StyleSheet,
   FlatList,
 } from 'react-native';
-import { PokemonDetails, Pokemons } from '@/types/pokemon';
+import { Pokemons } from '@/types/pokemon';
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
-import { useEffect } from 'react';
+
 import useStore from '@/store/store';
 import useSettingStore from '@/store/settingStore';
 import PokemonCard from '@/components/PokemonCard';
-import { getList } from '@/store/asyncStorage';
+
 import { darkTheme } from '@/theme/darkTheme';
 import { lightTheme } from '@/theme/lightTheme';
 
@@ -60,23 +60,10 @@ export default function Favorite() {
   const tabBarHeight = useBottomTabBarHeight();
   const pokemons = useStore((state) => state.pokemons);
   const favoriteList = useStore((state) => state.favoriteList);
-  const setFavoriteList = useStore((state) => state.setFavoriteList);
+
   const theme = useSettingStore((state) => state.theme);
 
   const styles = createStyles(theme);
-
-  useEffect(() => {
-    const fetchFavorites = async () => {
-      try {
-        const list = await getList('favorite');
-        setFavoriteList(list);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-
-    fetchFavorites();
-  }, []);
 
   const formattedPokemons = pokemons.filter((obj) =>
     favoriteList.includes(obj.id)

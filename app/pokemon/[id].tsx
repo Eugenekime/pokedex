@@ -14,6 +14,8 @@ import useSettingStore from '@/store/settingStore';
 import { typeColors } from '@/styles/cardStyles';
 import TabStats from '@/components/tabsDetails/TabStats';
 import TabAbout from '@/components/tabsDetails/TabAbout';
+import TabEvolves from '@/components/tabsDetails/TabEvolves';
+import TabMoves from '@/components/tabsDetails/TabMoves';
 
 const createStyles = (theme: string) =>
   StyleSheet.create({
@@ -188,28 +190,30 @@ const PokemonDetailScreen = () => {
               },
             ]}
           >
-            Evolution
+            Evolutions
           </Text>
         </Pressable>
-        <Pressable onPress={() => setTab('ables')}>
+        <Pressable onPress={() => setTab('moves')}>
           <Text
             style={[
               style.tabsText,
               {
-                color: tab === 'ables' ? 'black' : style.tabsText.color,
-                fontSize: tab === 'ables' ? 18 : style.tabsText.fontSize,
+                color: tab === 'moves' ? 'black' : style.tabsText.color,
+                fontSize: tab === 'moves' ? 18 : style.tabsText.fontSize,
                 backgroundColor:
-                  tab === 'ables' ? 'white' : style.tabsText.backgroundColor,
+                  tab === 'moves' ? 'white' : style.tabsText.backgroundColor,
               },
             ]}
           >
-            Abilities
+            Moves
           </Text>
         </Pressable>
       </View>
       <View>
         {(tab === 'stats' && <TabStats data={pokemonDetails} />) ||
-          (tab === 'about' && <TabAbout data={pokemonDetails} />)}
+          (tab === 'about' && <TabAbout data={pokemonDetails} />) ||
+          (tab === 'evolve' && <TabEvolves data={pokemonDetails} />) ||
+          (tab === 'moves' && <TabMoves data={pokemonDetails} />)}
       </View>
     </View>
   );

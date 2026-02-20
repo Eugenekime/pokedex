@@ -24,7 +24,7 @@ const createStyles = (theme: string) =>
       flexDirection: 'row',
       justifyContent: 'flex-start',
       alignItems: 'center',
-      gap: 40,
+      gap: 30,
     },
     attributeName: {
       fontSize: 16,
@@ -33,12 +33,16 @@ const createStyles = (theme: string) =>
       width: '20%',
     },
     attributeContainerValue: {
+      flex: 1,
       flexDirection: 'row',
-      gap: 20,
-      justifyContent: 'center',
+      justifyContent: 'flex-start',
       alignItems: 'flex-start',
     },
-    attributeValue: { fontSize: 16, fontWeight: '500' },
+    attributeValue: {
+      fontSize: 16,
+      fontWeight: '500',
+      flexWrap: 'wrap',
+    },
     descContainer: {
       gap: 10,
     },
@@ -62,57 +66,49 @@ const createStyles = (theme: string) =>
 
 const TabAbout = ({ data }: Props) => {
   const theme = useSettingStore((state) => state.theme);
-  const style = createStyles(theme);
+  const styles = createStyles(theme);
   return (
-    <View style={style.wrapper}>
-      <View style={style.attributeContainer}>
-        <View style={style.attributeRow}>
-          <Text style={style.attributeName}>Species:</Text>
-          <Text style={style.attributeValue}>{data.genus}</Text>
+    <View style={styles.wrapper}>
+      <View style={styles.attributeContainer}>
+        <View style={styles.attributeRow}>
+          <Text style={styles.attributeName}>Species:</Text>
+          <Text style={styles.attributeValue}>{data.genus}</Text>
         </View>
-        <View style={style.attributeRow}>
-          <Text style={style.attributeName}>Height:</Text>
-          <Text style={style.attributeValue}>{data.height} m</Text>
+        <View style={styles.attributeRow}>
+          <Text style={styles.attributeName}>Height:</Text>
+          <Text style={styles.attributeValue}>{data.height} m</Text>
         </View>
-        <View style={style.attributeRow}>
-          <Text style={style.attributeName}>Weight:</Text>
-          <Text style={style.attributeValue}>{data.weight} kg</Text>
+        <View style={styles.attributeRow}>
+          <Text style={styles.attributeName}>Weight:</Text>
+          <Text style={styles.attributeValue}>{data.weight} kg</Text>
         </View>
-        <View style={style.attributeRow}>
-          <Text style={style.attributeName}>Habitat:</Text>
-          <Text style={style.attributeValue}>{data.habitat}</Text>
+        <View style={styles.attributeRow}>
+          <Text style={styles.attributeName}>Habitat:</Text>
+          <Text style={styles.attributeValue}>{data.habitat}</Text>
         </View>
-        <View style={style.attributeRow}>
-          <Text style={style.attributeName}>Egg groups:</Text>
-          <View style={style.attributeContainerValue}>
-            {data.eggGroups.map((item) => (
-              <Text
-                key={item}
-                style={style.attributeValue}
-              >
-                {item}
-              </Text>
-            ))}
+        <View style={styles.attributeRow}>
+          <Text style={styles.attributeName}>Egg groups:</Text>
+          <View style={styles.attributeContainerValue}>
+            <Text style={styles.attributeValue}>
+              {data.eggGroups.join(`, `)}
+            </Text>
           </View>
         </View>
-        <View style={style.attributeRow}>
-          <Text style={style.attributeName}>Abilities:</Text>
-          <View style={style.attributeContainerValue}>
-            {data.abilities.map((ablts) => (
-              <Text
-                key={ablts.name}
-                style={style.attributeValue}
-              >
-                {ablts.name}
-              </Text>
-            ))}
+        <View style={styles.attributeRow}>
+          <Text style={styles.attributeName}>Abilities:</Text>
+          <View style={styles.attributeContainerValue}>
+            <Text style={styles.attributeValue}>
+              {data.abilities
+                .map((a) => (a.isHidden ? a.name + '*' : a.name))
+                .join(`, `)}
+            </Text>
           </View>
         </View>
       </View>
-      <View style={style.descContainer}>
-        <Text style={style.descTitle}>Description</Text>
-        <View style={style.descContainerText}>
-          <Text style={style.descText}>{data.description}</Text>
+      <View style={styles.descContainer}>
+        <Text style={styles.descTitle}>Description</Text>
+        <View style={styles.descContainerText}>
+          <Text style={styles.descText}>{data.description}</Text>
         </View>
       </View>
     </View>

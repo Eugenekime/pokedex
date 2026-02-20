@@ -43,16 +43,16 @@ const createStyles = (theme: string) =>
 
 const TabStats = ({ data }: Props) => {
   const theme = useSettingStore((state) => state.theme);
-  const style = createStyles(theme);
+  const styles = createStyles(theme);
   return (
-    <View style={style.wrapper}>
-      <View style={style.attributeContainer}>
+    <View style={styles.wrapper}>
+      <View style={styles.attributeContainer}>
         {data.stats.map((item) => (
           <View
             key={item.name}
-            style={style.attributeRow}
+            style={styles.attributeRow}
           >
-            <Text style={style.attributeName}>{`${item.name}:`}</Text>
+            <Text style={styles.attributeName}>{`${item.name}:`}</Text>
             <View
               style={{
                 flexDirection: 'row',
@@ -61,16 +61,16 @@ const TabStats = ({ data }: Props) => {
                 gap: 6,
               }}
             >
-              <Text style={style.attributeValue}>{item.value}</Text>
-              <View style={style.bar}>
+              <Text style={styles.attributeValue}>{item.value}</Text>
+              <View style={styles.bar}>
                 <ProgressBar value={item.value} />
               </View>
             </View>
           </View>
         ))}
         <View style={{ width: '100%', height: 1, backgroundColor: 'grey' }} />
-        <View style={style.attributeRow}>
-          <Text style={style.attributeName}>Total</Text>
+        <View style={styles.attributeRow}>
+          <Text style={styles.attributeName}>Total</Text>
           <View
             style={{
               flexDirection: 'row',
@@ -79,10 +79,10 @@ const TabStats = ({ data }: Props) => {
               gap: 6,
             }}
           >
-            <Text style={style.attributeValue}>
+            <Text style={styles.attributeValue}>
               {data.stats.reduce((acc, item) => acc + item.value, 0)}
             </Text>
-            <View style={style.bar}>
+            <View style={styles.bar}>
               <ProgressBar
                 value={data.stats.reduce((acc, item) => acc + item.value, 0)}
                 max={255 * 6}

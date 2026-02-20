@@ -6,7 +6,7 @@ type Props = {
 
 const styles = StyleSheet.create({
   container: {
-    height: 8,
+    height: 4,
     backgroundColor: '#eee',
     borderRadius: 4,
     overflow: 'hidden',
