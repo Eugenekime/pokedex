@@ -4,15 +4,17 @@ import { useState } from 'react';
 import { PokemonDetail, MoveDetailType } from '@/types/pokemon';
 import useSettingStore from '@/store/settingStore';
 import MoveDetail from './MoveDetail';
+///themes
+import { themes, ThemeType } from '@/theme/themes';
 
 type Props = {
   data: PokemonDetail;
 };
 
-const createStyles = (theme: string) =>
+const createStyles = (theme: ThemeType) =>
   StyleSheet.create({
     wrapper: {
-      backgroundColor: 'white',
+      backgroundColor: themes[theme].backgroundColor,
     },
     scroll: {
       padding: 10,
@@ -25,10 +27,11 @@ const createStyles = (theme: string) =>
       padding: 8,
       borderRadius: 20,
       borderWidth: 1,
-      backgroundColor: 'white',
+      borderColor: themes[theme].color,
+      backgroundColor: themes[theme].backgroundColor,
       alignItems: 'center',
     },
-    text: { fontSize: 18, fontWeight: '500' },
+    text: { fontSize: 18, fontWeight: '500', color: themes[theme].color },
   });
 
 const TabMoves = ({ data }: Props) => {

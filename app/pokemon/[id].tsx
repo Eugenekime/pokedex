@@ -16,8 +16,10 @@ import TabStats from '@/components/tabsDetails/TabStats';
 import TabAbout from '@/components/tabsDetails/TabAbout';
 import TabEvolves from '@/components/tabsDetails/TabEvolves';
 import TabMoves from '@/components/tabsDetails/TabMoves';
+///themes
+import { themes, ThemeType } from '@/theme/themes';
 
-const createStyles = (theme: string) =>
+const createStyles = (theme: ThemeType) =>
   StyleSheet.create({
     wrapper: {
       height: '70%',
@@ -153,10 +155,13 @@ const PokemonDetailScreen = () => {
             style={[
               style.tabsText,
               {
-                color: tab === 'about' ? 'black' : style.tabsText.color,
+                color:
+                  tab === 'about' ? themes[theme].color : style.tabsText.color,
                 fontSize: tab === 'about' ? 18 : style.tabsText.fontSize,
                 backgroundColor:
-                  tab === 'about' ? 'white' : style.tabsText.backgroundColor,
+                  tab === 'about'
+                    ? themes[theme].backgroundColor
+                    : style.tabsText.backgroundColor,
               },
             ]}
           >
@@ -168,10 +173,13 @@ const PokemonDetailScreen = () => {
             style={[
               style.tabsText,
               {
-                color: tab === 'stats' ? 'black' : style.tabsText.color,
+                color:
+                  tab === 'stats' ? themes[theme].color : style.tabsText.color,
                 fontSize: tab === 'stats' ? 18 : style.tabsText.fontSize,
                 backgroundColor:
-                  tab === 'stats' ? 'white' : style.tabsText.backgroundColor,
+                  tab === 'stats'
+                    ? themes[theme].backgroundColor
+                    : style.tabsText.backgroundColor,
               },
             ]}
           >
@@ -183,10 +191,13 @@ const PokemonDetailScreen = () => {
             style={[
               style.tabsText,
               {
-                color: tab === 'evolve' ? 'black' : style.tabsText.color,
+                color:
+                  tab === 'evolve' ? themes[theme].color : style.tabsText.color,
                 fontSize: tab === 'evolve' ? 18 : style.tabsText.fontSize,
                 backgroundColor:
-                  tab === 'evolve' ? 'white' : style.tabsText.backgroundColor,
+                  tab === 'evolve'
+                    ? themes[theme].backgroundColor
+                    : style.tabsText.backgroundColor,
               },
             ]}
           >
@@ -198,10 +209,13 @@ const PokemonDetailScreen = () => {
             style={[
               style.tabsText,
               {
-                color: tab === 'moves' ? 'black' : style.tabsText.color,
+                color:
+                  tab === 'moves' ? themes[theme].color : style.tabsText.color,
                 fontSize: tab === 'moves' ? 18 : style.tabsText.fontSize,
                 backgroundColor:
-                  tab === 'moves' ? 'white' : style.tabsText.backgroundColor,
+                  tab === 'moves'
+                    ? themes[theme].backgroundColor
+                    : style.tabsText.backgroundColor,
               },
             ]}
           >

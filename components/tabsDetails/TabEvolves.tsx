@@ -1,20 +1,24 @@
 import { View, Text, StyleSheet, ScrollView, Image } from 'react-native';
 import { PokemonDetail } from '@/types/pokemon';
 import useSettingStore from '@/store/settingStore';
+///themes
+import { themes, ThemeType } from '@/theme/themes';
+
 type Props = {
   data: PokemonDetail;
 };
 
-const createStyles = (theme: string) =>
+const createStyles = (theme: ThemeType) =>
   StyleSheet.create({
     wrapper: {
       padding: 20,
-      backgroundColor: 'white',
+      backgroundColor: themes[theme].backgroundColor,
       height: '90%',
     },
     title: {
       fontSize: 24,
       fontWeight: '600',
+      color: themes[theme].color,
     },
     row: {
       flexDirection: 'row',
@@ -58,7 +62,7 @@ const TabEvolves = ({ data }: Props) => {
                   style={{ width: 80, height: 80 }}
                   resizeMode="contain"
                 />
-                <Text>{item.name}</Text>
+                <Text style={{ color: themes[theme].color }}>{item.name}</Text>
               </View>
               <View style={styles.column}>
                 <Image
@@ -66,7 +70,7 @@ const TabEvolves = ({ data }: Props) => {
                   style={{ width: 30, height: 30 }}
                 />
 
-                <Text>
+                <Text style={{ color: themes[theme].color }}>
                   {lvlUp && data.evolutions[index + 1].minLevel
                     ? `Lv. ${next.minLevel}`
                     : 'Special condition'}
@@ -78,7 +82,7 @@ const TabEvolves = ({ data }: Props) => {
                   style={{ width: 80, height: 80 }}
                   resizeMode="contain"
                 />
-                <Text>{next.name}</Text>
+                <Text style={{ color: themes[theme].color }}>{next.name}</Text>
               </View>
             </View>
           );

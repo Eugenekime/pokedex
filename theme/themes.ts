@@ -5,3 +5,5 @@ export const themes = {
   },
   dark: { backgroundColor: '#60A5FA', color: '#F1F5F9' },
 };
+
+export type ThemeType = keyof typeof themes;

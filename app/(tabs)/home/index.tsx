@@ -17,24 +17,20 @@ import { getPokemonList } from '@/api/pokemon';
 import useStore from '@/store/store';
 import useSettingStore from '@/store/settingStore';
 ///themes
-import { darkTheme } from '@/theme/darkTheme';
-import { lightTheme } from '@/theme/lightTheme';
+import { themes, ThemeType } from '@/theme/themes';
 
 /////Imported components
 import PokemonCard from '@/components/PokemonCard';
 import FilterModal from '@/components/FilterModal';
 ///styles
-const createStyles = (theme: string) =>
+const createStyles = (theme: ThemeType) =>
   StyleSheet.create({
     loadingContainer: {
       flex: 1,
       justifyContent: 'center',
       alignItems: 'center',
 
-      backgroundColor:
-        theme === 'light'
-          ? lightTheme.colors.background
-          : darkTheme.colors.background,
+      backgroundColor: themes[theme].backgroundColor,
     },
     headerContainer: {
       paddingLeft: 12,
@@ -42,7 +38,7 @@ const createStyles = (theme: string) =>
       justifyContent: 'space-between',
       alignItems: 'center',
       flexDirection: 'row',
-      backgroundColor: 'white',
+      backgroundColor: themes[theme].backgroundColor,
       borderBottomLeftRadius: 6,
       borderBottomRightRadius: 6,
     },
@@ -151,17 +147,7 @@ export default function Home() {
         style={{ flex: 1 }}
         resizeMode="cover"
       >
-        <View
-          style={[
-            styles.headerContainer,
-            {
-              backgroundColor:
-                theme === 'light'
-                  ? lightTheme.colors.background
-                  : darkTheme.colors.primary,
-            },
-          ]}
-        >
+        <View style={[styles.headerContainer]}>
           <Text style={styles.headerTitle}>Pokedex</Text>
           <Pressable
             style={{ padding: 10, paddingTop: 16 }}

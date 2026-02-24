@@ -1,14 +1,17 @@
 import { View, Text, StyleSheet } from 'react-native';
 import { PokemonDetail } from '@/types/pokemon';
 import useSettingStore from '@/store/settingStore';
+///themes
+import { themes, ThemeType } from '@/theme/themes';
+
 type Props = {
   data: PokemonDetail;
 };
 
-const createStyles = (theme: string) =>
+const createStyles = (theme: ThemeType) =>
   StyleSheet.create({
     wrapper: {
-      backgroundColor: 'white',
+      backgroundColor: themes[theme].backgroundColor,
       padding: 8,
       height: '100%',
     },
@@ -42,6 +45,7 @@ const createStyles = (theme: string) =>
       fontSize: 16,
       fontWeight: '500',
       flexWrap: 'wrap',
+      color: themes[theme].color,
     },
     descContainer: {
       gap: 10,
@@ -59,7 +63,7 @@ const createStyles = (theme: string) =>
     descText: {
       fontSize: 14,
       lineHeight: 22,
-      color: '#444',
+      color: themes[theme].color,
       textAlign: 'justify',
     },
   });

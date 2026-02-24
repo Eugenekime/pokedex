@@ -7,29 +7,25 @@ import {
 } from 'react-native';
 import { MoveDetailType } from '@/types/pokemon';
 import useSettingStore from '@/store/settingStore';
-///themes
-import { darkTheme } from '@/theme/darkTheme';
-import { lightTheme } from '@/theme/lightTheme';
 type Props = {
   data?: MoveDetailType;
   onBack: () => void;
 };
+///themes
+import { themes, ThemeType } from '@/theme/themes';
 
-const createStyles = (theme: string) =>
+const createStyles = (theme: ThemeType) =>
   StyleSheet.create({
     loadingContainer: {
       width: '100%',
       height: '90%',
       justifyContent: 'center',
       alignItems: 'center',
-      backgroundColor:
-        theme === 'light'
-          ? lightTheme.colors.background
-          : darkTheme.colors.background,
+      backgroundColor: themes[theme].backgroundColor,
     },
     wrapper: {
       padding: 16,
-      backgroundColor: 'white',
+      backgroundColor: themes[theme].backgroundColor,
       height: '100%',
     },
     btnBackWrapper: {
@@ -49,7 +45,7 @@ const createStyles = (theme: string) =>
       alignItems: 'center',
       padding: 16,
     },
-    title: { fontSize: 24, fontWeight: '600' },
+    title: { fontSize: 24, fontWeight: '600', color: themes[theme].color },
     textName: {
       fontSize: 16,
       color: 'rgba(0, 0, 0, 0.514)',
@@ -57,7 +53,12 @@ const createStyles = (theme: string) =>
       width: 100,
     },
 
-    textValue: { fontSize: 16, fontWeight: '500', flex: 1 },
+    textValue: {
+      fontSize: 16,
+      fontWeight: '500',
+      flex: 1,
+      color: themes[theme].color,
+    },
 
     bottomContainer: {
       flexDirection: 'column',

@@ -1,10 +1,11 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { create } from 'zustand';
+import { ThemeType } from '@/theme/themes';
 
 type settingType = {
-  theme: string;
+  theme: ThemeType;
   isFavoritesFirst: boolean;
-  setTheme: (theme: string) => void;
+  setTheme: (theme: ThemeType) => void;
   setIsFavoritesFirst: (favoritesFirst: boolean) => void;
   loadSettings: () => void;
 };
@@ -21,10 +22,10 @@ const useSettingStore = create<settingType>((set) => ({
     await AsyncStorage.setItem('favoritesFirst', isFavoritesFirst.toString());
   },
   loadSettings: async () => {
-    console.log('loadSettings called');
-    const theme = await AsyncStorage.getItem('theme');
+    const storedTheme = await AsyncStorage.getItem('theme');
     const isFavoritesFirst = await AsyncStorage.getItem('favoritesFirst');
     const turnedToBoolean = isFavoritesFirst === 'true';
+    const theme: ThemeType = storedTheme === 'dark' ? 'dark' : 'light';
 
     set({ theme: theme || 'light', isFavoritesFirst: turnedToBoolean });
   },

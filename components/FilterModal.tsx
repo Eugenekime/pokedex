@@ -8,13 +8,52 @@ import {
 } from 'react-native';
 import { typeColors } from '@/styles/cardStyles';
 import useStore from '@/store/store';
+import useSettingStore from '@/store/settingStore';
+
+///themes
+import { themes, ThemeType } from '@/theme/themes';
 
 type Props = {
   visible: boolean;
   onClose: () => void;
 };
+const createStyles = (theme: ThemeType) =>
+  StyleSheet.create({
+    filterContainer: {
+      backgroundColor: 'rgba(0,0,0,0.2)',
+      flex: 1,
+      justifyContent: 'flex-start',
+      borderRadius: 20,
+    },
+
+    filterWrapper: {
+      height: 400,
+      backgroundColor: themes[theme].backgroundColor,
+      padding: 20,
+      paddingTop: 20,
+      gap: 20,
+      borderBottomLeftRadius: 25,
+      borderBottomRightRadius: 25,
+
+      //IOS shadow
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 4 },
+      shadowOpacity: 0.2,
+      shadowRadius: 6,
+      // Android shadow
+      elevation: 6,
+    },
+
+    filterTitle: {
+      fontSize: 36,
+      fontWeight: '600',
+      opacity: 0.7,
+    },
+  });
 
 const FilterModal = ({ visible, onClose }: Props) => {
+  const theme = useSettingStore((state) => state.theme);
+  const styles = createStyles(theme);
   const setTypeForFilter = useStore((state) => state.setTypeForFilter);
   const pokemonTypes = [
     'normal',
@@ -139,36 +178,3 @@ const FilterModal = ({ visible, onClose }: Props) => {
 };
 
 export default FilterModal;
-
-const styles = StyleSheet.create({
-  filterContainer: {
-    backgroundColor: 'rgba(0,0,0,0.2)',
-    flex: 1,
-    justifyContent: 'flex-start',
-    borderRadius: 20,
-  },
-
-  filterWrapper: {
-    height: 400,
-    backgroundColor: 'white',
-    padding: 20,
-    paddingTop: 20,
-    gap: 20,
-    borderBottomLeftRadius: 25,
-    borderBottomRightRadius: 25,
-
-    //IOS shadow
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.2,
-    shadowRadius: 6,
-    // Android shadow
-    elevation: 6,
-  },
-
-  filterTitle: {
-    fontSize: 36,
-    fontWeight: '600',
-    opacity: 0.7,
-  },
-});

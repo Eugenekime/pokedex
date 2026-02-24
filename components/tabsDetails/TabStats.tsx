@@ -2,14 +2,17 @@ import { View, Text, StyleSheet } from 'react-native';
 import { PokemonDetail } from '@/types/pokemon';
 import useSettingStore from '@/store/settingStore';
 import ProgressBar from './ProgressBar';
+///themes
+import { themes, ThemeType } from '@/theme/themes';
+
 type Props = {
   data: PokemonDetail;
 };
 
-const createStyles = (theme: string) =>
+const createStyles = (theme: ThemeType) =>
   StyleSheet.create({
     wrapper: {
-      backgroundColor: 'white',
+      backgroundColor: themes[theme].backgroundColor,
       padding: 8,
       height: '100%',
     },
@@ -37,7 +40,12 @@ const createStyles = (theme: string) =>
       justifyContent: 'center',
       alignItems: 'flex-start',
     },
-    attributeValue: { fontSize: 16, fontWeight: '500', width: 30 },
+    attributeValue: {
+      fontSize: 16,
+      fontWeight: '500',
+      width: 30,
+      color: themes[theme].color,
+    },
     bar: { flex: 0.95 },
   });
 
@@ -68,7 +76,13 @@ const TabStats = ({ data }: Props) => {
             </View>
           </View>
         ))}
-        <View style={{ width: '100%', height: 1, backgroundColor: 'grey' }} />
+        <View
+          style={{
+            width: '100%',
+            height: 1,
+            backgroundColor: themes[theme].color,
+          }}
+        />
         <View style={styles.attributeRow}>
           <Text style={styles.attributeName}>Total</Text>
           <View

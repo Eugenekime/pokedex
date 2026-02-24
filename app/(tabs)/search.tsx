@@ -17,10 +17,9 @@ import { getAllPokemons } from '@/api/pokemon';
 ///components
 import PokemonSearchItem from '@/components/PokemonSearchItem';
 ///themes
-import { darkTheme } from '@/theme/darkTheme';
-import { lightTheme } from '@/theme/lightTheme';
+import { themes, ThemeType } from '@/theme/themes';
 ///styles
-const createStyles = (theme: string) =>
+const createStyles = (theme: ThemeType) =>
   StyleSheet.create({
     container: {
       flex: 1,
@@ -33,10 +32,7 @@ const createStyles = (theme: string) =>
       width: 320,
       flexDirection: 'row',
       alignItems: 'center',
-      backgroundColor:
-        theme === 'light'
-          ? lightTheme.colors.background
-          : darkTheme.colors.primary,
+      backgroundColor: themes[theme].backgroundColor,
       borderRadius: 30,
       paddingHorizontal: 15,
       height: 60,
@@ -53,12 +49,11 @@ const createStyles = (theme: string) =>
       fontSize: 18,
       paddingRight: 20,
       textAlignVertical: 'center',
-      color: theme === 'light' ? lightTheme.colors.text : darkTheme.colors.text,
+      color: themes[theme].color,
     },
   });
 
 export default function Search() {
- 
   const pokemonSearchList = useStore((state) => state.pokemonSearchList);
   const setPokemonSearchList = useStore((state) => state.setPokemonSearchList);
   const theme = useSettingStore((state) => state.theme);
